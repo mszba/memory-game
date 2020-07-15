@@ -1,6 +1,7 @@
 const memory = document.querySelectorAll('.card')
 let clickedCard = null;
 let cardsFound = 0;
+let blocked = false;
 
 const colors = [
   'red',
@@ -36,7 +37,7 @@ for (let color of colors) {
 memory.forEach(card => {
   card.addEventListener('click', () => {
 
-    if (card === clickedCard || card.className.includes('done')) return
+    if (card === clickedCard || card.className.includes('done') || blocked) return
 
     card.classList.remove('color-hidden')
     card.className += ' done';
@@ -53,10 +54,12 @@ memory.forEach(card => {
         cardsFound++;
         if (cardsFound === 8) alert('You win!')
       } else {
+        blocked = true;
         setTimeout(() => {
           clickedCard.classList.replace('done', 'color-hidden');
           card.classList.replace('done', 'color-hidden');
           clickedCard = null;
+          blocked = false;
         }, 500)
       }
     }
